@@ -12,7 +12,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Spinner } from "@/components/ui/spinner";
-import { useDialog } from "@/hooks/useDialog";
+import { useDialog } from "@/hooks/use-dialog";
 
 const Dashboard = () => {
   const { isOpen, onClose, onOpen } = useDialog();

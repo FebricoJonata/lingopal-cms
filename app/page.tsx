@@ -2,19 +2,19 @@
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Spinner } from "@/components/ui/spinner";
 import axios from "axios";
 import { useRouter } from "next/navigation";
-import { useRef, useState } from "react";
+import { useState } from "react";
 
 export default function Home() {
   const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   const login = async () => {
-    console.log("Email:", email);
-    console.log("Password:", password);
-
+    setIsLoading(true);
     try {
       const response = await axios.post(
         "https://lingo-pal-backend-v1.vercel.app/api/users/signin",
@@ -26,15 +26,16 @@ export default function Home() {
 
       if (response.status === 200) {
         router.push("/dashboard");
-        console.log("Masuk");
       }
     } catch (error) {
       console.error("Error:", error);
+    } finally {
+      setIsLoading(false);
     }
   };
   return (
     <div className="flex justify-center items-center h-screen bg-primary">
-      <div className="border-solid border-2 rounded-md p-6 bg-white w-1/5 mx-auto">
+      <div className="border-solid border-2 border-white rounded-md p-6 bg-white lg:w-1/5 mx-auto sm:w-1/2">
         <h1 className="font-bold text-2xl text-primary mb-4 ">Login</h1>
         <Input
           type="email"
@@ -51,7 +52,8 @@ export default function Home() {
           onChange={(e) => setPassword(e.target.value)}
         />
         <Button size={"lg"} onClick={login}>
-          Login
+          {isLoading && <Spinner size="small" className="mr-1" />}
+          {isLoading ? "Loading..." : "Login"}
         </Button>
       </div>
     </div>
