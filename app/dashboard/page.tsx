@@ -22,7 +22,7 @@ import {
 import { Spinner } from "@/components/ui/spinner";
 import { useDialog } from "@/hooks/use-dialog";
 import Lottie from "lottie-react";
-import Robo from "@/assets/Robo.json";
+import Lingo from "@/assets/Lingo.json";
 
 const Dashboard = () => {
   const { isOpen, onClose, onOpen } = useDialog();
@@ -57,7 +57,21 @@ const Dashboard = () => {
           </CardHeader>
         </Card>
       </div>
-      <Lottie animationData={Robo} className="w-1/4" />
+      <div className="flex flex-row gap-4 mt-4">
+        <Lottie animationData={Lingo} className="basis-1/4" />
+        <Card className="basis-3/4">
+          <CardHeader>
+            <CardTitle>Card Title</CardTitle>
+            <CardDescription>Card Description</CardDescription>
+          </CardHeader>
+        </Card>
+      </div>
+      <Card className="w-full mt-4 h-72">
+        <CardHeader>
+          <CardTitle>Card Title</CardTitle>
+          <CardDescription>Card Description</CardDescription>
+        </CardHeader>
+      </Card>
 
       <Button variant={"default"} size={"lg"} onClick={openDialog}>
         Open Modal
