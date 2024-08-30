@@ -11,8 +11,18 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Spinner } from "@/components/ui/spinner";
 import { useDialog } from "@/hooks/use-dialog";
+import Lottie from "lottie-react";
+import Robo from "@/assets/Robo.json";
 
 const Dashboard = () => {
   const { isOpen, onClose, onOpen } = useDialog();
@@ -25,10 +35,30 @@ const Dashboard = () => {
 
   return (
     <>
-      <h1 className="text-sky-700 font-roboto font-bold text-2xl flex justify-center">
-        This Dashboard
-      </h1>
-      <Spinner size="large" />
+      <h1 className="text-white font-roboto font-bold text-2xl"></h1>
+      {/* <Spinner size="large" /> */}
+      <div className="flex flex-row gap-4 my-4">
+        <Card className="basis-1/3 bg-brown">
+          <CardHeader>
+            <CardTitle>Card Title</CardTitle>
+            <CardDescription>Card Description</CardDescription>
+          </CardHeader>
+        </Card>
+        <Card className="basis-1/3">
+          <CardHeader>
+            <CardTitle>Card Title</CardTitle>
+            <CardDescription>Card Description</CardDescription>
+          </CardHeader>
+        </Card>
+        <Card className="basis-1/3">
+          <CardHeader>
+            <CardTitle>Card Title</CardTitle>
+            <CardDescription>Card Description</CardDescription>
+          </CardHeader>
+        </Card>
+      </div>
+      <Lottie animationData={Robo} className="w-1/4" />
+
       <Button variant={"default"} size={"lg"} onClick={openDialog}>
         Open Modal
       </Button>
