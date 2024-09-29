@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -24,6 +25,8 @@ import { useDialog } from "@/hooks/use-dialog";
 import Lottie from "lottie-react";
 import Lingo from "@/assets/Lingo.json";
 
+import LingoSad from "@/assets/images/lingo_sad.png";
+
 const Dashboard = () => {
   const { isOpen, onClose, onOpen } = useDialog();
 
@@ -35,12 +38,12 @@ const Dashboard = () => {
 
   return (
     <>
-      <h1 className="text-white font-roboto font-bold text-2xl"></h1>
+      {/* <h1 className="text-primary font-roboto font-bold text-2xl">Dashboard</h1> */}
       {/* <Spinner size="large" /> */}
       <div className="flex flex-row gap-4 my-4">
         <Card className="basis-1/3 bg-brown">
           <CardHeader>
-            <CardTitle>Card Title</CardTitle>
+            <CardTitle>Total User</CardTitle>
             <CardDescription>Card Description</CardDescription>
           </CardHeader>
         </Card>
@@ -78,7 +81,8 @@ const Dashboard = () => {
       </Button>
       <Dialog onOpenChange={onClose} open={isOpen} modal defaultOpen={isOpen}>
         <DialogContent>
-          <DialogHeader>
+          <DialogHeader className="flex items-center gap-3">
+            <Image src={LingoSad} alt="Lingo" width={100} height={100} />
             <DialogTitle>Are you absolutely sure?</DialogTitle>
             <DialogDescription>
               This action cannot be undone. This will permanently delete your
