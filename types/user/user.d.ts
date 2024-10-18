@@ -1,8 +1,9 @@
 export interface User {
-  id: number;
+  user_id: number;
   name: string;
-  username: string;
   email: string;
-  phone: string;
-  website: string;
+  phone_number: string;
+  birth_date: string;
+  gender: string;
+  image?: string | null;
 }

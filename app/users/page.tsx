@@ -7,8 +7,7 @@ const User = async () => {
 
   return (
     <>
-      <h1>Welcome to users page</h1>
-      <div className="">
+      <div className="mt-8">
         <DataTable columns={columns} data={data} />
       </div>
     </>
