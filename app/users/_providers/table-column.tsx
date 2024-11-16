@@ -1,12 +1,13 @@
 "use client";
 
-import { User } from "@/types/user/user";
+import { User } from "@/types/user";
 import { ColumnDef } from "@tanstack/react-table";
 
 export const columns: ColumnDef<User>[] = [
   {
     accessorKey: "idx",
-    header: "No.",
+    header: () => <div className="text-center">No.</div>,
+    cell: ({ row }) => <div className="text-center">{row.getValue("idx")}</div>,
   },
   {
     accessorKey: "name",

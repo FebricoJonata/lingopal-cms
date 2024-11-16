@@ -103,7 +103,7 @@ export function DataTable<TData, TValue>({
           </span>
         </div>
 
-        <div className=" space-x-2 py-4">
+        <div className="space-x-2 py-4">
           <Button
             variant="default"
             size="sm"

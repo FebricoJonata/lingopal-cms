@@ -1,4 +1,4 @@
-import { User } from "@/types/user/user";
+import { User } from "@/types/user";
 
 export const getUsers = async (): Promise<User[]> => {
   try {
@@ -6,12 +6,10 @@ export const getUsers = async (): Promise<User[]> => {
       "https://lingo-pal-backend-v1.vercel.app/api/users"
     );
 
-    // Check if the response status is OK (status code 200-299)
     if (!response.ok) {
       throw new Error(`Failed to fetch users: ${response.statusText}`);
     }
 
-    // Parse the response body as JSON
     const data = await response.json();
 
     const users = data.body.data.map((user: User, idx: number) => ({

@@ -35,7 +35,7 @@ export function getMenuList(pathname: string): Group[] {
         {
           href: "/dashboard",
           label: "Dashboard",
-          active: pathname.includes("/dashboard"),
+          active: pathname === "/dashboard",
           icon: LayoutGrid,
           submenus: [],
         },
@@ -47,36 +47,36 @@ export function getMenuList(pathname: string): Group[] {
         {
           href: "",
           label: "Questions",
-          active: pathname.includes("/posts"),
+          active: false,
           icon: SquarePen,
           submenus: [
             {
-              href: "/posts",
+              href: "/dashboard/question",
               label: "Multiple Choice",
-              active: pathname === "/posts",
+              active: pathname === "/dashboard/question",
             },
             {
-              href: "/posts/new",
+              href: "/dashboard/prounciation-question",
               label: "Prounciation",
-              active: pathname === "/posts/new",
+              active: pathname === "/dashboard/prounciation-question",
             },
           ],
         },
         {
-          href: "/categories",
+          href: "",
           label: "Material Resource",
-          active: pathname.includes("/categories"),
+          active: false,
           icon: Book,
           submenus: [
             {
-              href: "/",
+              href: "/dashboard/text-material",
               label: "Text",
-              active: pathname === "/",
+              active: pathname === "/dashboard/text-material",
             },
             {
-              href: "/",
+              href: "/dashboard/video-material",
               label: "Video",
-              active: pathname === "/",
+              active: pathname === "/dashboard/video-material",
             },
           ],
         },

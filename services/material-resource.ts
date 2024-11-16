@@ -1,0 +1,37 @@
+import { MaterialResource } from "@/types/material-resource";
+
+export const getMaterialResource = async (
+  contentType: "Video" | "Article"
+): Promise<MaterialResource[]> => {
+  try {
+    const response = await fetch(
+      `https://lingo-pal-backend-v1.vercel.app/api/material-resource?type=${contentType}`,
+      { cache: "no-store" }
+    );
+    if (!response.ok) {
+      throw new Error(`Failed to fetch : ${response.statusText}`);
+    }
+
+    const data = await response.json();
+
+    const materialResources = data.body.map(
+      (materialResource: MaterialResource, idx: number) => ({
+        idx: idx + 1,
+        id: materialResource.id,
+        title: materialResource.title,
+        type: materialResource.type,
+        category: materialResource.category,
+        source: materialResource.source,
+        cover: materialResource.cover,
+        content: materialResource.content,
+        description: materialResource.description,
+      })
+    );
+
+    console.log("Material Resource : ", materialResources);
+    return materialResources;
+  } catch (error) {
+    console.error("Error fetching question: ", error);
+    return [];
+  }
+};

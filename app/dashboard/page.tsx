@@ -26,6 +26,7 @@ import Lottie from "lottie-react";
 import Lingo from "@/assets/Lingo.json";
 
 import LingoSad from "@/assets/images/lingo_sad.png";
+import { LucideIcon, Users } from "lucide-react";
 
 const Dashboard = () => {
   const { isOpen, onClose, onOpen } = useDialog();
@@ -41,22 +42,34 @@ const Dashboard = () => {
       {/* <h1 className="text-primary font-roboto font-bold text-2xl">Dashboard</h1> */}
       {/* <Spinner size="large" /> */}
       <div className="flex flex-row gap-4 my-4">
-        <Card className="basis-1/3 bg-brown">
+        <Card className="basis-1/3">
           <CardHeader>
-            <CardTitle>Total User</CardTitle>
-            <CardDescription>Card Description</CardDescription>
+            <div className="flex justify-between">
+              <h3 className="font-medium text-md">Active User</h3>
+              <Users color="black" />
+            </div>
+            <CardTitle className="text-3xl">300+</CardTitle>
+            <CardDescription>+180.1% from last month</CardDescription>
           </CardHeader>
         </Card>
         <Card className="basis-1/3">
           <CardHeader>
-            <CardTitle>Card Title</CardTitle>
-            <CardDescription>Card Description</CardDescription>
+            <div className="flex justify-between">
+              <h3 className="font-medium text-md">Active User</h3>
+              <Users color="black" />
+            </div>
+            <CardTitle className="text-3xl">300+</CardTitle>
+            <CardDescription>+180.1% from last month</CardDescription>
           </CardHeader>
         </Card>
         <Card className="basis-1/3">
           <CardHeader>
-            <CardTitle>Card Title</CardTitle>
-            <CardDescription>Card Description</CardDescription>
+            <div className="flex justify-between">
+              <h3 className="font-medium text-md">Active User</h3>
+              <Users color="black" />
+            </div>
+            <CardTitle className="text-3xl">300+</CardTitle>
+            <CardDescription>+180.1% from last month</CardDescription>
           </CardHeader>
         </Card>
       </div>
