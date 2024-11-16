@@ -1,14 +1,15 @@
-import { DataTable } from "@/components/ui/data-table";
-import { getQuestion } from "@/services/question";
-import { columns } from "./_provider/table-column";
+"use client";
 
-const Question = async () => {
-  const data = await getQuestion(1);
+import { DataTable } from "@/components/ui/data-table";
+import { columns } from "./_provider/table-column";
+import { useQuestionQuery } from "@/services/question";
+
+const Question = () => {
+  const { data, isLoading } = useQuestionQuery(1);
   return (
     <>
-      {" "}
       <div className="mt-8">
-        <DataTable columns={columns} data={data} />
+        <DataTable columns={columns} data={data ?? []} />
       </div>
     </>
   );
