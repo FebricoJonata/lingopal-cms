@@ -1,8 +1,9 @@
 "use client";
 
+import { Button } from "@/components/ui/button";
 import { Question } from "@/types/question";
 import { ColumnDef } from "@tanstack/react-table";
-import { Edit, Trash2 } from "lucide-react";
+import { ArrowUpDown, Edit, Trash2 } from "lucide-react";
 
 export const columns: ColumnDef<Question>[] = [
   {
@@ -24,19 +25,79 @@ export const columns: ColumnDef<Question>[] = [
   },
   {
     accessorKey: "question",
-    header: "Question",
+    header: ({ column }) => {
+      return (
+        <Button
+          className="p-0 m-0"
+          variant="none"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Question
+          <ArrowUpDown className="ml-2 h-4 w-4 hover:bg-accent" />
+        </Button>
+      );
+    },
   },
   {
     accessorKey: "answer_key",
-    header: "Answer Key",
-    size: 60,
+    header: ({ column }) => {
+      return (
+        <Button
+          className="p-0 m-0"
+          variant="none"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Answer Key
+          <ArrowUpDown className="ml-2 h-4 w-4 hover:bg-accent" />
+        </Button>
+      );
+    },
+    size: 80,
   },
   {
     accessorKey: "choices",
-    header: "Multiple Choice",
+    header: ({ column }) => {
+      return (
+        <Button
+          className="p-0 m-0"
+          variant="none"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Multiple Choice
+          <ArrowUpDown className="ml-2 h-4 w-4 hover:bg-accent" />
+        </Button>
+      );
+    },
   },
   {
     accessorKey: "course_name",
-    header: "Course Name",
+    header: ({ column }) => {
+      return (
+        <Button
+          className="p-0 m-0"
+          variant="none"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Course Name
+          <ArrowUpDown className="ml-2 h-4 w-4 hover:bg-accent" />
+        </Button>
+      );
+    },
+  },
+  {
+    accessorKey: "practice_id",
+    header: ({ column }) => {
+      return (
+        <Button
+          className="p-0 m-0"
+          variant="none"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Practice ID
+          <ArrowUpDown className="ml-2 h-4 w-4 hover:bg-accent" />
+        </Button>
+      );
+    },
+    size: 70,
   },
 ];
