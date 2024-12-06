@@ -9,7 +9,7 @@ const SuccessVerified = () => {
     <div className="flex flex-col justify-center items-center h-screen ">
       <Lottie
         animationData={Success}
-        className="lg:w-[50%] lg:h-[50%] w-[30%] h-[30%]"
+        className="lg:w-[50%] lg:h-[50%] w-[35%] h-[35%]"
       />
       <h1 className="lg:text-4xl text-2xl  text-primary font-bold">
         Email successfully Verified!
