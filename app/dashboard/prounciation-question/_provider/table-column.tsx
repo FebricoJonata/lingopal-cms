@@ -10,6 +10,58 @@ import { Edit, Trash2 } from "lucide-react";
 import { ArrowUpDown } from "lucide-react";
 import { useState } from "react";
 
+const ActionCell: React.FC<{ row: any }> = ({ row }) => {
+  const { onOpen: openEditDialog, setData: setFormData } = useDialog();
+  const [isDeleteDialogOpen, setDeleteDialogOpen] = useState(false);
+
+  const { mutate: deleteQuestion } = useDeleteQuestionMutation();
+
+  const openDialog = () => {
+    const rowData = row.original;
+    setFormData({
+      id: rowData.quiz_id,
+      question: rowData.question,
+      practiceLevel: rowData.practice_id,
+    });
+    openEditDialog();
+  };
+
+  const handleOpenDialog = () => {
+    setDeleteDialogOpen(true);
+  };
+
+  const handleCloseDialog = () => {
+    setDeleteDialogOpen(false);
+  };
+
+  const handleConfirm = () => {
+    deleteQuestion(row.original.quiz_id);
+    setDeleteDialogOpen(false);
+  };
+
+  return (
+    <div className="text-sm flex">
+      <Trash2
+        className="text-red-400 text-sm cursor-pointer"
+        width={20}
+        height={20}
+        onClick={handleOpenDialog}
+      />
+      <Edit
+        className="text-blue-600 text-sm cursor-pointer"
+        width={20}
+        height={20}
+        onClick={openDialog}
+      />
+      <DeleteConfirmationDialog
+        isOpen={isDeleteDialogOpen}
+        onClose={handleCloseDialog}
+        onConfirm={handleConfirm}
+      />
+    </div>
+  );
+};
+
 export const columns: ColumnDef<Question>[] = [
   {
     accessorKey: "idx",
@@ -20,60 +72,7 @@ export const columns: ColumnDef<Question>[] = [
   {
     accessorKey: "quiz_id",
     header: () => <div className="">Action</div>,
-    cell: ({ row }) => {
-      const { onOpen: openEditDialog, setData: setFormData } = useDialog();
-
-      const openDialog = () => {
-        const rowData = row.original;
-        setFormData({
-          id: row.original.quiz_id,
-          question: rowData.question,
-          practiceLevel: rowData.practice_id,
-        });
-
-        openEditDialog();
-      };
-
-      const [isDeleteDialogOpen, setDeleteDialogOpen] = useState(false);
-
-      const handleOpenDialog = () => {
-        setDeleteDialogOpen(true);
-      };
-
-      const handleCloseDialog = () => {
-        setDeleteDialogOpen(false);
-      };
-
-      const { mutate: deleteQuestion } = useDeleteQuestionMutation();
-
-      const handleConfirm = async () => {
-        deleteQuestion(row.original.quiz_id);
-        setDeleteDialogOpen(false);
-      };
-
-      return (
-        <div className="text-sm flex">
-          <Trash2
-            className="text-red-400 text-sm cursor-pointer"
-            width={20}
-            height={20}
-            onClick={handleOpenDialog}
-          />
-          <Edit
-            className="text-blue-600 text-sm cursor-pointer"
-            width={20}
-            height={20}
-            onClick={openDialog}
-          />
-
-          <DeleteConfirmationDialog
-            isOpen={isDeleteDialogOpen}
-            onClose={handleCloseDialog}
-            onConfirm={handleConfirm}
-          />
-        </div>
-      );
-    },
+    cell: ({ row }) => <ActionCell row={row} />,
     size: 30,
   },
   {
