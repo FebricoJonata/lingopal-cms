@@ -33,13 +33,19 @@ const ProunciationQuestion = () => {
   const { mutate: editProunciationQuestion } = useEditQuestionMutation();
   const { mutate: createProunciationQuestion } = useCreateQuestionMutation();
 
+  const initialmodalFormData = {
+    id: null,
+    question: "",
+    practiceLevel: "",
+  };
+
   const openDialog = () => {
-    setModalFormData({}); // Reset form data
+    setModalFormData(initialmodalFormData); // Reset form data
     onOpen();
   };
 
   const closeDialog = () => {
-    setModalFormData({}); // Reset form data
+    setModalFormData(initialmodalFormData); // Reset form data
     onClose();
   };
 
@@ -50,7 +56,7 @@ const ProunciationQuestion = () => {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setModalFormData({}); // Reset form data
+    setModalFormData(initialmodalFormData); // Reset form data
     closeDialog();
 
     if (modalFormData.id) {
@@ -121,7 +127,7 @@ const ProunciationQuestion = () => {
                 htmlFor="practiceLevel"
                 className="block text-sm font-medium text-gray-700"
               >
-                Course Level ID
+                Practice ID
               </label>
               <Input
                 id="practiceLevel"

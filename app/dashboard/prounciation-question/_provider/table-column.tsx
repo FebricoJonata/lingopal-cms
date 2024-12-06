@@ -131,7 +131,7 @@ export const columns: ColumnDef<Question>[] = [
           variant="none"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          Level ID
+          Practice ID
           <ArrowUpDown className="ml-2 h-4 w-4 hover:bg-accent" />
         </Button>
       );
