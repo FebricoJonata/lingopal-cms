@@ -4,5 +4,7 @@ export interface Question {
   answer_key: string;
   choices: string[];
   practice_code: string;
+  practice_id: number;
   course_name: string;
+  course_description: string;
 }

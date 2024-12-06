@@ -1,10 +1,22 @@
 "use client";
 
 import {
+  Pagination,
+  PaginationContent,
+  PaginationEllipsis,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from "@/components/ui/pagination";
+
+import {
   ColumnDef,
   flexRender,
   getCoreRowModel,
   getPaginationRowModel,
+  getSortedRowModel,
+  SortingState,
   useReactTable,
 } from "@tanstack/react-table";
 
@@ -16,7 +28,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Button } from "./button";
+import React from "react";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -27,11 +39,18 @@ export function DataTable<TData, TValue>({
   columns,
   data,
 }: DataTableProps<TData, TValue>) {
+  const [sorting, setSorting] = React.useState<SortingState>([]);
+
   const table = useReactTable({
     data,
     columns,
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
+    onSortingChange: setSorting,
+    getSortedRowModel: getSortedRowModel(),
+    state: {
+      sorting,
+    },
   });
 
   return (
@@ -46,6 +65,10 @@ export function DataTable<TData, TValue>({
                     <TableHead
                       key={header.id}
                       className="border-r bg-white rounded-md"
+                      style={{
+                        minWidth: header.column.columnDef.size,
+                        maxWidth: header.column.columnDef.size,
+                      }}
                     >
                       {header.isPlaceholder
                         ? null
@@ -70,6 +93,10 @@ export function DataTable<TData, TValue>({
                     <TableCell
                       key={cell.id}
                       className="border-r bg-white rounded-md"
+                      style={{
+                        minWidth: cell.column.columnDef.size,
+                        maxWidth: cell.column.columnDef.size,
+                      }}
                     >
                       {flexRender(
                         cell.column.columnDef.cell,
@@ -92,35 +119,53 @@ export function DataTable<TData, TValue>({
           </TableBody>
         </Table>
       </div>
-      <div className="flex items-center justify-between">
-        <div>
-          <span>
-            Page{" "}
-            <span className="font-bold text-secondary">
-              {table.getState().pagination.pageIndex + 1} of{" "}
-              {table.getPageCount()}
-            </span>
-          </span>
-        </div>
+      <div className="flex items-center justify-self-end mt-4">
+        <Pagination>
+          <PaginationContent>
+            <PaginationItem>
+              <PaginationPrevious onClick={() => table.previousPage()} />
+            </PaginationItem>
+            {Array.from({ length: table.getPageCount() }, (_, i) => {
+              const currentPage = table.getState().pagination.pageIndex;
+              const totalPages = table.getPageCount();
 
-        <div className="space-x-2 py-4">
-          <Button
-            variant="default"
-            size="sm"
-            onClick={() => table.previousPage()}
-            disabled={!table.getCanPreviousPage()}
-          >
-            Previous
-          </Button>
-          <Button
-            variant="default"
-            size="sm"
-            onClick={() => table.nextPage()}
-            disabled={!table.getCanNextPage()}
-          >
-            Next
-          </Button>
-        </div>
+              if (
+                i === totalPages - 1 || // Always show the last page
+                (i >= currentPage - 1 && i <= currentPage + 1) // Show the current page and its neighbors
+              ) {
+                return (
+                  <PaginationItem key={i}>
+                    <PaginationLink
+                      isActive={currentPage === i}
+                      onClick={() => table.setPageIndex(i)}
+                    >
+                      {i + 1}
+                    </PaginationLink>
+                  </PaginationItem>
+                );
+              }
+
+              if (
+                (currentPage > totalPages / 2 && i === 2) ||
+                i === totalPages - 2
+              ) {
+                return (
+                  <PaginationItem key={`ellipsis-${i}`}>
+                    <PaginationEllipsis />
+                  </PaginationItem>
+                );
+              }
+
+              return null; // Skip other pages
+            })}
+            <PaginationItem>
+              <PaginationNext
+                onClick={() => table.nextPage()}
+                aria-disabled={!table.getCanNextPage()}
+              />
+            </PaginationItem>
+          </PaginationContent>
+        </Pagination>
       </div>
     </div>
   );

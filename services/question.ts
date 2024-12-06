@@ -1,7 +1,14 @@
 "use client";
 
 import { Question } from "@/types/question";
-import { QueryFunctionContext, useQuery } from "@tanstack/react-query";
+import {
+  QueryFunctionContext,
+  useMutation,
+  useQuery,
+  useQueryClient,
+} from "@tanstack/react-query";
+import axios from "axios";
+import { toast } from "sonner";
 
 export const useQuestionQuery = (courseCategoryID: 1 | 2) => {
   const fetchQuestion = async ({ queryKey }: QueryFunctionContext) => {
@@ -26,7 +33,9 @@ export const useQuestionQuery = (courseCategoryID: 1 | 2) => {
           answer_key: question.answer_key,
           choices: question.choices,
           course_name: question.course_name,
+          course_description: question.course_description,
           practice_code: question.practice_code,
+          practice_id: question.practice_id,
         })
       );
 
@@ -38,7 +47,76 @@ export const useQuestionQuery = (courseCategoryID: 1 | 2) => {
   };
 
   return useQuery({
-    queryKey: ["question", courseCategoryID],
+    queryKey: ["questions", courseCategoryID],
     queryFn: fetchQuestion,
+    refetchOnWindowFocus: false,
+    refetchOnReconnect: false,
+  });
+};
+
+export const useCreateQuestionMutation = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async (createPayload: {}) => {
+      const response = await axios.post(
+        `https://lingo-pal-backend-v1.vercel.app/api/quiz/admin/create`,
+        createPayload
+      );
+
+      return response.data;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["questions"] });
+      toast.success("Question has been created!");
+    },
+    onError: (error: any) => {
+      toast.error("Failed to create question.");
+      throw new Error("Failed to create question.");
+    },
+  });
+};
+
+export const useEditQuestionMutation = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async (editPayload: {}) => {
+      const response = await axios.put(
+        `https://lingo-pal-backend-v1.vercel.app/api/quiz/admin/update`,
+        editPayload
+      );
+
+      return response.data;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["questions"] });
+      toast.success("Question has been updated!");
+    },
+    onError: (error: any) => {
+      toast.error("Failed to update question.");
+      throw new Error("Failed to update question.");
+    },
+  });
+};
+
+export const useDeleteQuestionMutation = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async (id: number) => {
+      const response = await axios.delete(
+        `https://lingo-pal-backend-v1.vercel.app/api/quiz/admin/delete/${id}`
+      );
+      return response.data;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["questions"] });
+      toast.success("Question deleted successfully!");
+    },
+    onError: (error: any) => {
+      toast.error("Failed to delete question.");
+      throw new Error("Failed to delete question.");
+    },
   });
 };

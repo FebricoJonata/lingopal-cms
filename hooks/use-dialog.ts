@@ -13,5 +13,5 @@ export const useDialog = create<DialogProps>((set) => ({
   onOpen: () => set({ isOpen: true }),
   onClose: () => set({ isOpen: false }),
   data: {},
-  setData: (data) => set({ data: { data } }),
+  setData: (data) => set((state) => ({ data: { ...state.data, ...data } })),
 }));
