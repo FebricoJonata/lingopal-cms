@@ -20,7 +20,7 @@ export default function Home() {
 
     try {
       const response = await axios.post(
-        "https://lingo-pal-backend-v1.vercel.app/api/users/signin",
+        "https://lingo-pal-backend-v1.vercel.app/api/users/admin-signin",
         {
           email,
           password,

@@ -8,6 +8,7 @@ export const columns: ColumnDef<User>[] = [
     accessorKey: "idx",
     header: () => <div className="text-center">No.</div>,
     cell: ({ row }) => <div className="text-center">{row.getValue("idx")}</div>,
+    size: 20,
   },
   {
     accessorKey: "name",
@@ -16,14 +17,6 @@ export const columns: ColumnDef<User>[] = [
   {
     accessorKey: "email",
     header: "Email",
-  },
-  {
-    accessorKey: "gender",
-    header: "Gender",
-  },
-  {
-    accessorKey: "phone_number",
-    header: "Phone Number",
   },
   {
     accessorKey: "birth_date",

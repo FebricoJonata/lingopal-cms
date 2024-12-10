@@ -1,14 +1,16 @@
 "use client";
 
+import { Button } from "@/components/ui/button";
 import { MaterialResource } from "@/types/material-resource";
 import { ColumnDef } from "@tanstack/react-table";
-import { Edit, Trash2 } from "lucide-react";
+import { ArrowUpDown, Edit, Trash2 } from "lucide-react";
 
 export const columns: ColumnDef<MaterialResource>[] = [
   {
     accessorKey: "idx",
     header: () => <div className="text-center">No.</div>,
     cell: ({ row }) => <div className="text-center">{row.getValue("idx")}</div>,
+    size: 30,
   },
   {
     accessorKey: "quiz_id",
@@ -19,6 +21,7 @@ export const columns: ColumnDef<MaterialResource>[] = [
         <Edit className="text-blue-600 text-sm" width={20} height={20} />
       </div>
     ),
+    size: 40,
   },
   {
     accessorKey: "source",
@@ -32,18 +35,53 @@ export const columns: ColumnDef<MaterialResource>[] = [
         View Source
       </a>
     ),
+    size: 80,
   },
   {
     accessorKey: "title",
-    header: "Title",
+    header: ({ column }) => {
+      return (
+        <Button
+          className="p-0 m-0"
+          variant="none"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Title
+          <ArrowUpDown className="ml-2 h-4 w-4 hover:bg-accent" />
+        </Button>
+      );
+    },
   },
   {
     accessorKey: "category",
-    header: "Category",
+    header: ({ column }) => {
+      return (
+        <Button
+          className="p-0 m-0"
+          variant="none"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Category
+          <ArrowUpDown className="ml-2 h-4 w-4 hover:bg-accent" />
+        </Button>
+      );
+    },
+    size: 70,
   },
   {
     accessorKey: "description",
-    header: "Description",
+    header: ({ column }) => {
+      return (
+        <Button
+          className="p-0 m-0"
+          variant="none"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Description
+          <ArrowUpDown className="ml-2 h-4 w-4 hover:bg-accent" />
+        </Button>
+      );
+    },
   },
   {
     accessorKey: "content",
@@ -57,5 +95,6 @@ export const columns: ColumnDef<MaterialResource>[] = [
         View Content
       </a>
     ),
+    size: 80,
   },
 ];

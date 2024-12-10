@@ -24,10 +24,14 @@ export const useMaterialResourcesQuery = (contentType: "Video" | "Article") => {
           title: materialResource.title,
           type: materialResource.type,
           category: materialResource.category,
-          source: materialResource.source,
+          source: materialResource.source?.includes(")")
+            ? materialResource.source.split(")")[1].trim()
+            : materialResource.source,
           cover: materialResource.cover,
-          content: materialResource.content,
-          description: materialResource.description,
+          content: materialResource.content?.includes(")")
+            ? materialResource.content.split(")")[1].trim()
+            : materialResource.content,
+          description: materialResource.description || "-",
         })
       );
 
