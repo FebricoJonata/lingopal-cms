@@ -4,7 +4,64 @@ import { Button } from "@/components/ui/button";
 import { Question } from "@/types/question";
 import { ColumnDef } from "@tanstack/react-table";
 import { ArrowUpDown, Edit, Trash2 } from "lucide-react";
+import { useState } from "react";
+import { useDeleteQuestionMutation } from "@/services/question";
+import { useDialog } from "@/hooks/use-dialog";
 
+import { DeleteConfirmationDialog } from "@/components/dialog/delete-confirmation-dialog";  
+const ActionCell: React.FC<{ row: any }> = ({ row }) => {
+  const { onOpen: openEditDialog, setData: setFormData } = useDialog();
+  const [isDeleteDialogOpen, setDeleteDialogOpen] = useState(false);
+
+  const { mutate: deleteQuestion } = useDeleteQuestionMutation();
+
+  const openDialog = () => {
+    const rowData = row.original;
+    setFormData({
+      id: rowData.quiz_id,
+      question: rowData.question,
+      practiceLevel: rowData.practice_id,
+      answerKey: rowData.answer_key,
+      choices: rowData.choice
+    });
+    openEditDialog();
+  };
+
+  const handleOpenDialog = () => {
+    setDeleteDialogOpen(true);
+  };
+
+  const handleCloseDialog = () => {
+    setDeleteDialogOpen(false);
+  };
+
+  const handleConfirm = () => {
+    deleteQuestion(row.original.quiz_id);
+    setDeleteDialogOpen(false);
+  };
+
+  return (
+    <div className="text-sm flex">
+      <Trash2
+        className="text-red-400 text-sm cursor-pointer"
+        width={20}
+        height={20}
+        onClick={handleOpenDialog}
+      />
+      <Edit
+        className="text-blue-600 text-sm cursor-pointer"
+        width={20}
+        height={20}
+        onClick={openDialog}
+      />
+      <DeleteConfirmationDialog
+        isOpen={isDeleteDialogOpen}
+        onClose={handleCloseDialog}
+        onConfirm={handleConfirm}
+      />
+    </div>
+  );
+};
 export const columns: ColumnDef<Question>[] = [
   {
     accessorKey: "idx",
@@ -15,13 +72,8 @@ export const columns: ColumnDef<Question>[] = [
   {
     accessorKey: "quiz_id",
     header: "Action",
-    cell: ({ row }) => (
-      <div className="text-sm flex">
-        <Trash2 className="text-red-400 text-sm" width={20} height={20} />
-        <Edit className="text-blue-600 text-sm" width={20} height={20} />
-      </div>
-    ),
-    size: 40,
+    cell: ({ row }) => <ActionCell row={row} />,
+    size: 30,
   },
   {
     accessorKey: "question",

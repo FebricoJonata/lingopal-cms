@@ -2,12 +2,100 @@
 
 import { DataTable } from "@/components/ui/data-table";
 import { columns } from "./_provider/table-column";
-import { useQuestionQuery } from "@/services/question";
 import { Spinner } from "@/components/ui/spinner";
 import { Button } from "@/components/ui/button";
 import { Toaster } from "sonner";
+import { useDialog } from "@/hooks/use-dialog";
+import {
+  useCreateQuestionMutation,
+  useEditQuestionMutation,
+  useQuestionQuery,
+} from "@/services/question";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { useState } from "react";
 
 const Question = () => {
+  const {
+    isOpen,
+    onClose,
+    onOpen,
+    data: modalFormData,
+    setData: setModalFormData,
+  } = useDialog();
+  const { mutate: editMultipleQuestion } = useEditQuestionMutation();
+  const { mutate: createMultipleQuestion } = useCreateQuestionMutation();
+  const [choices, setChoices] = useState<string[]>([]); // State untuk menyimpan pilihan
+  const [currentChoice, setCurrentChoice] = useState<string>("");
+
+  const initialmodalFormData = {
+    id: null,
+    question: "",
+    practiceLevel: "",
+    choices: [],
+    answerKey: "",
+  };
+
+  const openDialog = () => {
+    setModalFormData(initialmodalFormData); // Reset form data
+    onOpen();
+  };
+
+  const closeDialog = () => {
+    setModalFormData(initialmodalFormData);
+    setChoices([]); // Reset form data
+    onClose();
+  };
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setModalFormData({ [name]: value });
+  };
+  const handleChoiceAdd = () => {
+    if (currentChoice.trim() !== "" && choices.length < 4) {
+      setChoices([...choices, currentChoice]);
+      setCurrentChoice(""); // Reset input field
+      modalFormData.choice.push(currentChoice);
+      console.log("Payload choices:", modalFormData.choice);
+    }
+  };
+
+  const handleChoiceRemove = (index: number) => {
+    const updatedChoices = choices.filter((_, i) => i !== index);
+    setChoices(updatedChoices);
+  };
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setModalFormData(initialmodalFormData); // Reset form data
+    closeDialog();
+
+    if (modalFormData.id) {
+      const editPayload = {
+        id: modalFormData.id,
+        question: modalFormData.question,
+        practice_id: modalFormData.practiceLevel,
+        answer_key: modalFormData.answerKey,
+      };
+      editMultipleQuestion(editPayload);
+    } else {
+      const createPayload = {
+        question: modalFormData.question,
+        practice_id: Number(modalFormData.practiceLevel),
+        choices: Array(modalFormData.choice),
+        answer_key: modalFormData.answerKey,
+      };
+      createMultipleQuestion(createPayload);
+    }
+  };
+
   const { data, isLoading } = useQuestionQuery(1);
   return (
     <>
@@ -17,9 +105,9 @@ const Question = () => {
         <h3 className="text-primary font-bold text-2xl">
           Multiple Choice Question
         </h3>
-        {/* <Button variant={"default"} size={"icon"} onClick={openDialog}>
+        <Button variant={"default"} size={"icon"} onClick={openDialog}>
           +
-        </Button> */}
+        </Button>
       </div>
 
       {isLoading ? (
@@ -27,6 +115,115 @@ const Question = () => {
       ) : (
         <DataTable columns={columns} data={data ?? []} />
       )}
+
+      <Dialog open={isOpen} modal defaultOpen={isOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Multiple Choice Question</DialogTitle>
+            <DialogDescription>
+              Please fill out the form below.
+            </DialogDescription>
+          </DialogHeader>
+          <form onSubmit={handleSubmit} className="space-y-4">
+            <div>
+              <label
+                htmlFor="question"
+                className="block text-sm font-medium text-gray-700"
+              >
+                Question
+              </label>
+              <Input
+                id="question"
+                name="question"
+                type="text"
+                value={modalFormData.question || ""}
+                onChange={handleChange}
+                required
+              />
+            </div>
+            <div>
+              <label
+                htmlFor="practiceLevel"
+                className="block text-sm font-medium text-gray-700"
+              >
+                Practice ID
+              </label>
+              <Input
+                id="practiceLevel"
+                name="practiceLevel"
+                type="practiceLevel"
+                value={modalFormData.practiceLevel || ""}
+                onChange={handleChange}
+                required
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700">
+                Choices
+              </label>
+              <div className="flex items-center space-x-2">
+                <Input
+                  type="text"
+                  value={currentChoice}
+                  onChange={(e) => setCurrentChoice(e.target.value)}
+                  placeholder="Add a choice"
+                />
+                <Button
+                  type="button"
+                  variant={"default"}
+                  onClick={handleChoiceAdd}
+                  disabled={choices.length >= 4}
+                >
+                  Add Choice
+                </Button>
+              </div>
+              <div className="mt-2 flex flex-wrap gap-2">
+                {choices.map((choice, index) => (
+                  <div
+                    key={index}
+                    className="flex items-center bg-gray-100 px-4 py-2 rounded-md"
+                  >
+                    <span className="mr-2">{choice}</span>
+                    <button
+                      type="button"
+                      onClick={() => handleChoiceRemove(index)}
+                      className="text-red-500"
+                    >
+                      ×
+                    </button>
+                  </div>
+                ))}
+              </div>
+            </div>
+            <div>
+              <div>
+                <label
+                  htmlFor="answerKey"
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  Answer
+                </label>
+                <Input
+                  id="answerKey"
+                  name="answerKey"
+                  type="text"
+                  value={modalFormData.answerKey || ""}
+                  onChange={handleChange}
+                  required
+                />
+              </div>
+            </div>
+            <DialogFooter>
+              <Button type="button" variant={"outline"} onClick={closeDialog}>
+                Cancel
+              </Button>
+              <Button type="submit" variant={"default"}>
+                Save
+              </Button>
+            </DialogFooter>
+          </form>
+        </DialogContent>
+      </Dialog>
     </>
   );
 };

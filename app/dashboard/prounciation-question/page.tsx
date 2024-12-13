@@ -132,7 +132,7 @@ const ProunciationQuestion = () => {
               <Input
                 id="practiceLevel"
                 name="practiceLevel"
-                type="practiceLevel"
+                type="practiceLevel"  
                 value={modalFormData.practiceLevel || ""}
                 onChange={handleChange}
                 required
