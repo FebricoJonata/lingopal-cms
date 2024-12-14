@@ -8,3 +8,11 @@ export interface MaterialResource {
   content: string;
   description: string;
 }
+
+export interface MultipleChoice {
+  id: number | null;
+  question: string;
+  choices: string[];
+  answerKey: string;
+  practiceLevel: string | number;
+}

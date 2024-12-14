@@ -21,6 +21,7 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { useState } from "react";
+import { MultipleChoice } from "@/types/material-resource";
 
 const Question = () => {
   const {
@@ -32,10 +33,9 @@ const Question = () => {
   } = useDialog();
   const { mutate: editMultipleQuestion } = useEditQuestionMutation();
   const { mutate: createMultipleQuestion } = useCreateQuestionMutation();
-  const [choices, setChoices] = useState<string[]>([]); // State untuk menyimpan pilihan
   const [currentChoice, setCurrentChoice] = useState<string>("");
 
-  const initialmodalFormData = {
+  const initialmodalFormData: MultipleChoice = {
     id: null,
     question: "",
     practiceLevel: "",
@@ -50,31 +50,39 @@ const Question = () => {
 
   const closeDialog = () => {
     setModalFormData(initialmodalFormData);
-    setChoices([]); // Reset form data
     onClose();
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setModalFormData({ [name]: value });
+    setModalFormData({ ...modalFormData, [name]: value });
   };
+
   const handleChoiceAdd = () => {
-    if (currentChoice.trim() !== "" && choices.length < 4) {
-      setChoices([...choices, currentChoice]);
+    if (
+      currentChoice.trim() !== "" &&
+      (modalFormData.choices?.length ?? 0) < 4
+    ) {
+      setModalFormData({
+        ...modalFormData,
+        choices: [...(modalFormData.choices || []), currentChoice],
+      });
       setCurrentChoice(""); // Reset input field
-      modalFormData.choice.push(currentChoice);
-      console.log("Payload choices:", modalFormData.choice);
     }
   };
 
   const handleChoiceRemove = (index: number) => {
-    const updatedChoices = choices.filter((_, i) => i !== index);
-    setChoices(updatedChoices);
+    const updatedChoices =
+      modalFormData.choices?.filter((_: string, i: number) => i !== index) ||
+      [];
+    setModalFormData({
+      ...modalFormData,
+      choices: updatedChoices,
+    });
   };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setModalFormData(initialmodalFormData); // Reset form data
     closeDialog();
 
     if (modalFormData.id) {
@@ -83,13 +91,14 @@ const Question = () => {
         question: modalFormData.question,
         practice_id: modalFormData.practiceLevel,
         answer_key: modalFormData.answerKey,
+        choices: modalFormData.choices || [],
       };
       editMultipleQuestion(editPayload);
     } else {
       const createPayload = {
         question: modalFormData.question,
         practice_id: Number(modalFormData.practiceLevel),
-        choices: Array(modalFormData.choice),
+        choices: modalFormData.choices || [],
         answer_key: modalFormData.answerKey,
       };
       createMultipleQuestion(createPayload);
@@ -97,6 +106,7 @@ const Question = () => {
   };
 
   const { data, isLoading } = useQuestionQuery(1);
+
   return (
     <>
       <Toaster richColors position="top-right" />
@@ -151,7 +161,7 @@ const Question = () => {
               <Input
                 id="practiceLevel"
                 name="practiceLevel"
-                type="practiceLevel"
+                type="text"
                 value={modalFormData.practiceLevel || ""}
                 onChange={handleChange}
                 required
@@ -172,46 +182,46 @@ const Question = () => {
                   type="button"
                   variant={"default"}
                   onClick={handleChoiceAdd}
-                  disabled={choices.length >= 4}
+                  disabled={(modalFormData.choices?.length ?? 0) >= 4}
                 >
                   Add Choice
                 </Button>
               </div>
               <div className="mt-2 flex flex-wrap gap-2">
-                {choices.map((choice, index) => (
-                  <div
-                    key={index}
-                    className="flex items-center bg-gray-100 px-4 py-2 rounded-md"
-                  >
-                    <span className="mr-2">{choice}</span>
-                    <button
-                      type="button"
-                      onClick={() => handleChoiceRemove(index)}
-                      className="text-red-500"
+                {(modalFormData.choices || []).map(
+                  (choice: string, index: number) => (
+                    <div
+                      key={index}
+                      className="flex items-center bg-gray-100 px-4 py-2 rounded-md"
                     >
-                      ×
-                    </button>
-                  </div>
-                ))}
+                      <span className="mr-2">{choice}</span>
+                      <button
+                        type="button"
+                        onClick={() => handleChoiceRemove(index)}
+                        className="text-red-500"
+                      >
+                        ×
+                      </button>
+                    </div>
+                  )
+                )}
               </div>
             </div>
             <div>
-              <div>
-                <label
-                  htmlFor="answerKey"
-                  className="block text-sm font-medium text-gray-700"
-                >
-                  Answer
-                </label>
-                <Input
-                  id="answerKey"
-                  name="answerKey"
-                  type="text"
-                  value={modalFormData.answerKey || ""}
-                  onChange={handleChange}
-                  required
-                />
-              </div>
+              <label
+                htmlFor="answerKey"
+                className="block text-sm font-medium text-gray-700"
+              >
+                Answer
+              </label>
+              <Input
+                id="answerKey"
+                name="answerKey"
+                type="text"
+                value={modalFormData.answerKey || ""}
+                onChange={handleChange}
+                required
+              />
             </div>
             <DialogFooter>
               <Button type="button" variant={"outline"} onClick={closeDialog}>

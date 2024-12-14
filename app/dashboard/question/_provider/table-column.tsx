@@ -8,7 +8,7 @@ import { useState } from "react";
 import { useDeleteQuestionMutation } from "@/services/question";
 import { useDialog } from "@/hooks/use-dialog";
 
-import { DeleteConfirmationDialog } from "@/components/dialog/delete-confirmation-dialog";  
+import { DeleteConfirmationDialog } from "@/components/dialog/delete-confirmation-dialog";
 const ActionCell: React.FC<{ row: any }> = ({ row }) => {
   const { onOpen: openEditDialog, setData: setFormData } = useDialog();
   const [isDeleteDialogOpen, setDeleteDialogOpen] = useState(false);
@@ -22,8 +22,10 @@ const ActionCell: React.FC<{ row: any }> = ({ row }) => {
       question: rowData.question,
       practiceLevel: rowData.practice_id,
       answerKey: rowData.answer_key,
-      choices: rowData.choice
+      choices: rowData.choices as [],
     });
+
+    console.log("Edit : ", rowData.choices);
     openEditDialog();
   };
 
