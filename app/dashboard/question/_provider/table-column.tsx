@@ -25,7 +25,6 @@ const ActionCell: React.FC<{ row: any }> = ({ row }) => {
       choices: rowData.choices as [],
     });
 
-    console.log("Edit : ", rowData.choices);
     openEditDialog();
   };
 
@@ -75,7 +74,7 @@ export const columns: ColumnDef<Question>[] = [
     accessorKey: "quiz_id",
     header: "Action",
     cell: ({ row }) => <ActionCell row={row} />,
-    size: 30,
+    size: 40,
   },
   {
     accessorKey: "question",
