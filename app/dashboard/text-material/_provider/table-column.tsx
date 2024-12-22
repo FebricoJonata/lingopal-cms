@@ -4,8 +4,73 @@ import { Button } from "@/components/ui/button";
 import { MaterialResource } from "@/types/material-resource";
 import { ColumnDef } from "@tanstack/react-table";
 import { ArrowUpDown, Edit, Trash2 } from "lucide-react";
+import { useState } from "react";
+import { useDialog } from "@/hooks/use-dialog";
+import {useDeleteMaterialMutation} from  "@/services/material-resource";
+import { DeleteConfirmationDialog } from "@/components/dialog/delete-confirmation-dialog";
 
+const ActionCell: React.FC<{ row: any }> = ({ row }) => {
+  const { onOpen: openEditDialog, setData: setFormData } = useDialog();
+  const [isDeleteDialogOpen, setDeleteDialogOpen] = useState(false);
+
+  const { mutate: deleteMaterial } = useDeleteMaterialMutation();
+
+  const openDialog = () => {
+    const rowData = row.original;
+    setFormData({
+      id: rowData.id,
+      category: rowData.category,
+      content: rowData.content,
+      cover: rowData.cover,
+      description: rowData.description,
+      source: rowData.source,
+      title: rowData.title,
+      type: "Article"
+    });
+
+
+    openEditDialog();
+  };
+
+  const handleOpenDialog = () => {
+    console.log("Material_id:"+ row.original.id)
+    setDeleteDialogOpen(true);
+  };
+
+  const handleCloseDialog = () => {
+    setDeleteDialogOpen(false);
+  };
+
+  const handleConfirm = () => {
+    deleteMaterial(row.original.id);
+    setDeleteDialogOpen(false);
+  };
+
+  return (
+    <div className="text-sm flex">
+      <Trash2
+        className="text-red-400 text-sm cursor-pointer"
+        width={20}
+        height={20}
+        onClick={handleOpenDialog}
+      />
+      <Edit
+        className="text-blue-600 text-sm cursor-pointer"
+        width={20}
+        height={20}
+        onClick={openDialog}
+      />
+      <DeleteConfirmationDialog
+        isOpen={isDeleteDialogOpen}
+        onClose={handleCloseDialog}
+        onConfirm={handleConfirm}
+      />
+    </div>
+  );
+};
 export const columns: ColumnDef<MaterialResource>[] = [
+
+  
   {
     accessorKey: "idx",
     header: () => <div className="text-center">No.</div>,
@@ -13,14 +78,9 @@ export const columns: ColumnDef<MaterialResource>[] = [
     size: 30,
   },
   {
-    accessorKey: "quiz_id",
+    accessorKey: "id",
     header: "Action",
-    cell: ({ row }) => (
-      <div className="text-sm flex">
-        <Trash2 className="text-red-400 text-sm" width={20} height={20} />
-        <Edit className="text-blue-600 text-sm" width={20} height={20} />
-      </div>
-    ),
+    cell: ({ row }) => <ActionCell row={row} />,
     size: 40,
   },
   {
