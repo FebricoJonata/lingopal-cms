@@ -8,6 +8,7 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { toast } from "sonner";
 import { Toaster } from "@/components/ui/sonner";
+import { setCookie } from "nookies";
 
 export default function Home() {
   const router = useRouter();
@@ -30,6 +31,10 @@ export default function Home() {
 
       if (response.status === 200) {
         toast.success("Login Success");
+        setCookie(null, "authToken", response.data.token, {
+          maxAge: 60 * 60 * 24 * 100, // 100 days in seconds
+          path: "/", // Cookie accessible across the app
+        });
         router.push("/dashboard");
       }
     } catch (error) {
