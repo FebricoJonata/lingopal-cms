@@ -159,7 +159,6 @@ const VideoMaterial = () => {
                 type="text"
                 value={modalFormData.cover || ""}
                 onChange={handleChange}
-                required
               />
             </div>
 

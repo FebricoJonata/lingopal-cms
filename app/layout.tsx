@@ -20,6 +20,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <head>
+        <link rel="icon" href="assets/images/Logo_LingoPal.png" />
+      </head>
       <body className={lato.className}>
         <ReactQueryProvider>
           <main>{children}</main>

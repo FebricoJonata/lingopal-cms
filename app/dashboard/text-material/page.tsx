@@ -143,10 +143,9 @@ const TextMaterial = () => {
               >
                 Content
               </label>
-              <Input
+              <Textarea
                 id="content"
                 name="content"
-                type="text"
                 value={modalFormData.content || ""}
                 onChange={handleChange}
                 required
@@ -166,7 +165,6 @@ const TextMaterial = () => {
                 type="text"
                 value={modalFormData.cover || ""}
                 onChange={handleChange}
-                required
               />
             </div>
 
