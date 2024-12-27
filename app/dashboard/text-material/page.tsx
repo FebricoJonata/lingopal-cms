@@ -21,6 +21,7 @@ import {
 } from "@/components/ui/dialog";
 import { MaterialResource } from "@/types/material-resource";
 import { Toaster } from "@/components/ui/sonner";
+import { Textarea } from "@/components/ui/textarea";
 // import {
 //   useCreateQuestionMutation,
 //   useEditQuestionMutation,
@@ -51,7 +52,9 @@ const TextMaterial = () => {
     setModalFormData(initialmodalFormData);
     onClose();
   };
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
     const { name, value } = e.target;
     setModalFormData({ ...modalFormData, [name]: value });
   };
@@ -174,10 +177,9 @@ const TextMaterial = () => {
               >
                 Description
               </label>
-              <Input
+              <Textarea
                 id="description"
                 name="description"
-                type="text"
                 value={modalFormData.description || ""}
                 onChange={handleChange}
                 required

@@ -8,9 +8,6 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { toast } from "sonner";
 import { Toaster } from "@/components/ui/sonner";
-import { useLoginMutation } from "@/services/user";
-
-// const { mutate: login } = useLoginMutation();
 
 export default function Home() {
   const router = useRouter();

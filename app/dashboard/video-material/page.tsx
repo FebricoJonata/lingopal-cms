@@ -21,6 +21,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { Toaster } from "@/components/ui/sonner";
+import { Textarea } from "@/components/ui/textarea";
 const VideoMaterial = () => {
   const {
     isOpen,
@@ -50,7 +51,9 @@ const VideoMaterial = () => {
     setModalFormData(initialmodalFormData);
     onClose();
   };
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
     const { name, value } = e.target;
     setModalFormData({ ...modalFormData, [name]: value });
   };
@@ -167,10 +170,9 @@ const VideoMaterial = () => {
               >
                 Description
               </label>
-              <Input
+              <Textarea
                 id="description"
                 name="description"
-                type="text"
                 value={modalFormData.description || ""}
                 onChange={handleChange}
                 required

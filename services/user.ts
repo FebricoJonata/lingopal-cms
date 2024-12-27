@@ -48,25 +48,3 @@ export const useUserQuery = () => {
     refetchOnReconnect: false,
   });
 };
-
-export const useLoginMutation = () => {
-  const queryClient = useQueryClient();
-
-  return useMutation({
-    mutationFn: async (loginPayload: {}) => {
-      const response = await axios.post(
-        `https://lingo-pal-backend-v1.vercel.app/api/users/admin-signin`,
-        loginPayload
-      );
-
-      return response.data;
-    },
-    onSuccess: () => {
-      toast.success("Successfully Login!");
-    },
-    onError: (error: any) => {
-      toast.error("Invalid Crendentials.");
-      throw new Error("Invalid Crendentials.");
-    },
-  });
-};
