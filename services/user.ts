@@ -1,7 +1,14 @@
 "use client";
 
 import { User } from "@/types/user";
-import { QueryFunctionContext, useQuery } from "@tanstack/react-query";
+import {
+  QueryFunctionContext,
+  useMutation,
+  useQuery,
+  useQueryClient,
+} from "@tanstack/react-query";
+import axios from "axios";
+import { toast } from "sonner";
 
 export const useUserQuery = () => {
   const fetchUsers = async ({ queryKey }: QueryFunctionContext) => {
@@ -39,5 +46,27 @@ export const useUserQuery = () => {
     queryFn: fetchUsers,
     refetchOnWindowFocus: false,
     refetchOnReconnect: false,
+  });
+};
+
+export const useLoginMutation = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async (loginPayload: {}) => {
+      const response = await axios.post(
+        `https://lingo-pal-backend-v1.vercel.app/api/users/admin-signin`,
+        loginPayload
+      );
+
+      return response.data;
+    },
+    onSuccess: () => {
+      toast.success("Successfully Login!");
+    },
+    onError: (error: any) => {
+      toast.error("Invalid Crendentials.");
+      throw new Error("Invalid Crendentials.");
+    },
   });
 };

@@ -8,6 +8,9 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { toast } from "sonner";
 import { Toaster } from "@/components/ui/sonner";
+import { useLoginMutation } from "@/services/user";
+
+// const { mutate: login } = useLoginMutation();
 
 export default function Home() {
   const router = useRouter();
@@ -15,7 +18,8 @@ export default function Home() {
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
-  const login = async () => {
+  const login = async (event: React.FormEvent) => {
+    event.preventDefault();
     setIsLoading(true);
 
     try {
