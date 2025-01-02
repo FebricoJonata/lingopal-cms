@@ -39,7 +39,6 @@ export const useQuestionQuery = (courseCategoryID: 1 | 2) => {
         })
       );
 
-      console.log("Question: ", questions);
       return questions;
     } catch (error) {
       console.error("Error fetching question: ", error);

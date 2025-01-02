@@ -8,3 +8,11 @@ export interface Question {
   course_name: string;
   course_description: string;
 }
+
+export interface MultipleChoice {
+  id: number | null;
+  question: string;
+  choices: string[];
+  answerKey: string;
+  practiceLevel: string | number;
+}

@@ -21,7 +21,7 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { useState } from "react";
-import { MultipleChoice } from "@/types/material-resource";
+import { MultipleChoice } from "@/types/question";
 
 const Question = () => {
   const {
@@ -31,7 +31,7 @@ const Question = () => {
     data: modalFormData,
     setData: setModalFormData,
   } = useDialog();
-  
+
   const { mutate: editMultipleQuestion } = useEditQuestionMutation();
   const { mutate: createMultipleQuestion } = useCreateQuestionMutation();
   const [currentChoice, setCurrentChoice] = useState<string>("");

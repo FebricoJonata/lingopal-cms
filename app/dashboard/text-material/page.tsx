@@ -99,7 +99,7 @@ const TextMaterial = () => {
       <Toaster richColors position="top-right" />
       <div className="flex justify-between mb-4 items-center">
         <h3 className="text-primary font-bold text-2xl">
-          Articel Material Resource
+          Article Material Resource
         </h3>
         <Button variant={"default"} size={"icon"} onClick={openDialog}>
           +

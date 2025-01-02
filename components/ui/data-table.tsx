@@ -130,6 +130,7 @@ export function DataTable<TData, TValue>({
               const totalPages = table.getPageCount();
 
               if (
+                i === 0 || // Always show the first page
                 i === totalPages - 1 || // Always show the last page
                 (i >= currentPage - 1 && i <= currentPage + 1) // Show the current page and its neighbors
               ) {
