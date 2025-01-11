@@ -111,7 +111,7 @@ const ProunciationQuestion = () => {
                 htmlFor="question"
                 className="block text-sm font-medium text-gray-700"
               >
-                Question
+                Question <span className="text-red-500">*</span>
               </label>
               <Input
                 id="question"
@@ -127,12 +127,12 @@ const ProunciationQuestion = () => {
                 htmlFor="practiceLevel"
                 className="block text-sm font-medium text-gray-700"
               >
-                Practice ID
+                Practice ID <span className="text-red-500">*</span>
               </label>
               <Input
                 id="practiceLevel"
                 name="practiceLevel"
-                type="practiceLevel"  
+                type="practiceLevel"
                 value={modalFormData.practiceLevel || ""}
                 onChange={handleChange}
                 required

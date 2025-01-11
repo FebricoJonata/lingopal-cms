@@ -141,7 +141,7 @@ const Question = () => {
                 htmlFor="question"
                 className="block text-sm font-medium text-gray-700"
               >
-                Question
+                Question <span className="text-red-500">*</span>
               </label>
               <Input
                 id="question"
@@ -157,7 +157,7 @@ const Question = () => {
                 htmlFor="practiceLevel"
                 className="block text-sm font-medium text-gray-700"
               >
-                Practice ID
+                Practice ID <span className="text-red-500">*</span>
               </label>
               <Input
                 id="practiceLevel"
@@ -170,7 +170,7 @@ const Question = () => {
             </div>
             <div>
               <label className="block text-sm font-medium text-gray-700">
-                Choices
+                Choices <span className="text-red-500">*</span>
               </label>
               <div className="flex items-center space-x-2">
                 <Input
@@ -213,7 +213,7 @@ const Question = () => {
                 htmlFor="answerKey"
                 className="block text-sm font-medium text-gray-700"
               >
-                Answer
+                Answer <span className="text-red-500">*</span>
               </label>
               <Input
                 id="answerKey"

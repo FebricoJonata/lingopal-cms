@@ -118,7 +118,7 @@ const VideoMaterial = () => {
                 htmlFor="title"
                 className="block text-sm font-medium text-gray-700"
               >
-                Title
+                Title <span className="text-red-500">*</span>
               </label>
               <Input
                 id="title"
@@ -134,7 +134,7 @@ const VideoMaterial = () => {
                 htmlFor="content"
                 className="block text-sm font-medium text-gray-700"
               >
-                Content
+                Content <span className="text-red-500">*</span>
               </label>
               <Input
                 id="content"
@@ -174,7 +174,6 @@ const VideoMaterial = () => {
                 name="description"
                 value={modalFormData.description || ""}
                 onChange={handleChange}
-                required
               />
             </div>
             <div>
@@ -182,7 +181,7 @@ const VideoMaterial = () => {
                 htmlFor="category"
                 className="block text-sm font-medium text-gray-700"
               >
-                Category
+                Category <span className="text-red-500">*</span>
               </label>
               <Input
                 id="category"
@@ -198,7 +197,7 @@ const VideoMaterial = () => {
                 htmlFor="source"
                 className="block text-sm font-medium text-gray-700"
               >
-                Source
+                Source <span className="text-red-500">*</span>
               </label>
               <Input
                 id="source"

@@ -51,23 +51,33 @@ export default function Home() {
       <div className="border-solid border-1 border-white rounded-md  p-10 bg-white lg:w-[30%] mx-auto sm:w-1/2">
         <h1 className="font-bold text-2xl text-primary mb-4 ">Login</h1>
         <form method="post" onSubmit={login}>
-          <Input
-            type="email"
-            placeholder="Email"
-            className="mb-4"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
-          <Input
-            type="password"
-            placeholder="Password"
-            className="mb-4"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
-          <Button size={"full"} type="submit">
+          <div>
+            <label className="block text-sm font-medium text-gray-700">
+              Email<span className="text-red-500">*</span>
+            </label>
+            <Input
+              type="email"
+              placeholder="example@gmail.com"
+              className="mb-4"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700">
+              Password <span className="text-red-500">*</span>
+            </label>
+            <Input
+              type="password"
+              placeholder="password"
+              className="mb-4"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
+          </div>
+          <Button size={"full"} type="submit" disabled={!email || !password}>
             {isLoading && <Spinner size="small" className="mr-1" />}
             {isLoading ? "Loading..." : "Login"}
           </Button>
