@@ -99,13 +99,13 @@ export function getMenuList(pathname: string): Group[] {
           icon: Users,
           submenus: [],
         },
-        {
-          href: "/account",
-          label: "Account",
-          active: pathname.includes("/account"),
-          icon: Settings,
-          submenus: [],
-        },
+        // {
+        //   href: "/account",
+        //   label: "Account",
+        //   active: pathname.includes("/account"),
+        //   icon: Settings,
+        //   submenus: [],
+        // },
       ],
     },
   ];

@@ -19,10 +19,18 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
 import { useState } from "react";
 import { MultipleChoice } from "@/types/question";
 import { CourseDropdown } from "./_components/course-dropdown";
+import { CourseLevel } from "./_contants";
 
 const Question = () => {
   const {
@@ -129,9 +137,25 @@ const Question = () => {
         <h3 className="text-primary font-bold text-2xl">
           Multiple Choice Question
         </h3>
-        <Button variant={"default"} size={"icon"} onClick={openDialog}>
-          +
-        </Button>
+
+        {/* Wrap Dropdown and Button */}
+        <div className="flex items-center gap-2">
+          <Select>
+            <SelectTrigger className="w-[250px]">
+              <SelectValue placeholder="Filter By Course" />
+            </SelectTrigger>
+            <SelectContent>
+              {CourseLevel?.map((course) => (
+                <SelectItem key={course.value} value={String(course.value)}>
+                  {course.label}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+          <Button variant={"default"} size={"default"} onClick={openDialog}>
+            Add Question
+          </Button>
+        </div>
       </div>
 
       {isLoading ? (
