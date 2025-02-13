@@ -4,7 +4,7 @@ import { DataTable } from "@/components/ui/data-table";
 import { columns } from "./_provider/table-column";
 import { Spinner } from "@/components/ui/spinner";
 import { Button } from "@/components/ui/button";
-import { Toaster } from "sonner";
+import { toast, Toaster } from "sonner";
 import { useDialog } from "@/hooks/use-dialog";
 import {
   useCreateQuestionMutation,
@@ -85,6 +85,13 @@ const Question = () => {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     closeDialog();
+
+    if (
+      modalFormData &&
+      !modalFormData.choices.includes(modalFormData.answerKey)
+    ) {
+      return toast.error("Answer key is in the choices array");
+    }
 
     if (modalFormData.id) {
       const editPayload = {
