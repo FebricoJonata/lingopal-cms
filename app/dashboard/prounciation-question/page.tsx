@@ -20,6 +20,7 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Toaster } from "@/components/ui/sonner";
+import { CourseDropdown } from "./_components/course-dropdown";
 
 const ProunciationQuestion = () => {
   const {
@@ -49,9 +50,14 @@ const ProunciationQuestion = () => {
     onClose();
   };
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setModalFormData({ [name]: value });
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement> | string) => {
+    const value = typeof e === "string" ? e : e.target.value;
+    const name = typeof e === "string" ? "practiceLevel" : e.target.name;
+
+    setModalFormData({
+      ...modalFormData,
+      [name]: value,
+    });
   };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -123,21 +129,15 @@ const ProunciationQuestion = () => {
               />
             </div>
             <div>
-              <label
-                htmlFor="practiceLevel"
-                className="block text-sm font-medium text-gray-700"
-              >
-                Practice ID <span className="text-red-500">*</span>
+              <label className="block text-sm font-medium text-gray-700">
+                Course <span className="text-red-500">*</span>
               </label>
-              <Input
-                id="practiceLevel"
-                name="practiceLevel"
-                type="practiceLevel"
-                value={modalFormData.practiceLevel || ""}
+              <CourseDropdown
+                value={String(modalFormData.practiceLevel) || "-"}
                 onChange={handleChange}
-                required
               />
             </div>
+
             <DialogFooter>
               <Button type="button" variant={"outline"} onClick={closeDialog}>
                 Cancel

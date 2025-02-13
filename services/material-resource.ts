@@ -10,6 +10,7 @@ import {
 } from "@tanstack/react-query";
 import axios from "axios";
 import { toast } from "sonner";
+
 export const useMaterialResourcesQuery = (contentType: "Video" | "Article") => {
   const fetchMaterialResources = async ({ queryKey }: QueryFunctionContext) => {
     try {

@@ -22,6 +22,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { useState } from "react";
 import { MultipleChoice } from "@/types/question";
+import { CourseDropdown } from "./_components/course-dropdown";
 
 const Question = () => {
   const {
@@ -54,9 +55,14 @@ const Question = () => {
     onClose();
   };
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setModalFormData({ ...modalFormData, [name]: value });
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement> | string) => {
+    const value = typeof e === "string" ? e : e.target.value;
+    const name = typeof e === "string" ? "practiceLevel" : e.target.name;
+
+    setModalFormData({
+      ...modalFormData,
+      [name]: value,
+    });
   };
 
   const handleChoiceAdd = () => {
@@ -160,21 +166,15 @@ const Question = () => {
               />
             </div>
             <div>
-              <label
-                htmlFor="practiceLevel"
-                className="block text-sm font-medium text-gray-700"
-              >
-                Practice ID <span className="text-red-500">*</span>
+              <label className="block text-sm font-medium text-gray-700">
+                Course <span className="text-red-500">*</span>
               </label>
-              <Input
-                id="practiceLevel"
-                name="practiceLevel"
-                type="text"
-                value={modalFormData.practiceLevel || ""}
+              <CourseDropdown
+                value={String(modalFormData.practiceLevel) || "-"}
                 onChange={handleChange}
-                required
               />
             </div>
+
             <div>
               <label className="block text-sm font-medium text-gray-700">
                 Choices <span className="text-red-500">*</span>

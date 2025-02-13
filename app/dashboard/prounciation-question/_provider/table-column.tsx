@@ -121,20 +121,20 @@ export const columns: ColumnDef<Question>[] = [
     },
     size: 70,
   },
-  {
-    accessorKey: "practice_id",
-    header: ({ column }) => {
-      return (
-        <Button
-          className="p-0 m-0"
-          variant="none"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
-          Practice ID
-          <ArrowUpDown className="ml-2 h-4 w-4 hover:bg-accent" />
-        </Button>
-      );
-    },
-    size: 60,
-  },
+  // {
+  //   accessorKey: "practice_id",
+  //   header: ({ column }) => {
+  //     return (
+  //       <Button
+  //         className="p-0 m-0"
+  //         variant="none"
+  //         onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+  //       >
+  //         Practice ID
+  //         <ArrowUpDown className="ml-2 h-4 w-4 hover:bg-accent" />
+  //       </Button>
+  //     );
+  //   },
+  //   size: 60,
+  // },
 ];

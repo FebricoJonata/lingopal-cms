@@ -107,7 +107,7 @@ const VideoMaterial = () => {
       <Dialog open={isOpen} modal defaultOpen={isOpen}>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>Material Resource Article</DialogTitle>
+            <DialogTitle>Material Resource Video</DialogTitle>
             <DialogDescription>
               Please fill out the form below.
             </DialogDescription>
