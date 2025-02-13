@@ -35,7 +35,7 @@ export default function Home() {
           maxAge: 60 * 60 * 24 * 100, // 100 days in seconds
           path: "/", // Cookie accessible across the app
         });
-        router.push("/dashboard");
+        router.push("/dashboard/question");
       }
     } catch (error) {
       toast.error("Invalid Crendetials!");

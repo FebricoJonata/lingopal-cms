@@ -90,7 +90,7 @@ const Question = () => {
       modalFormData &&
       !modalFormData.choices.includes(modalFormData.answerKey)
     ) {
-      return toast.error("Answer key is in the choices array");
+      return toast.error("Answer key isn't in the choices array");
     }
 
     if (modalFormData.id) {
