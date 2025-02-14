@@ -29,6 +29,8 @@ import { Input } from "@/components/ui/input";
 import { Toaster } from "@/components/ui/sonner";
 import { CourseDropdown } from "./_components/course-dropdown";
 import { CourseLevel } from "./_contants";
+import { Search } from "lucide-react";
+import { useState } from "react";
 
 const ProunciationQuestion = () => {
   const {
@@ -41,6 +43,7 @@ const ProunciationQuestion = () => {
 
   const { mutate: editProunciationQuestion } = useEditQuestionMutation();
   const { mutate: createProunciationQuestion } = useCreateQuestionMutation();
+  const [search, setSearch] = useState("");
 
   const initialmodalFormData = {
     id: null,
@@ -101,7 +104,7 @@ const ProunciationQuestion = () => {
           Prounciation Question
         </h3>
         {/* Wrap Dropdown and Button */}
-        <div className="flex items-center gap-2">
+        {/* <div className="flex items-center gap-2">
           <Select>
             <SelectTrigger className="w-[250px]">
               <SelectValue placeholder="Filter By Course" />
@@ -115,6 +118,38 @@ const ProunciationQuestion = () => {
             </SelectContent>
           </Select>
           <Button variant={"default"} size={"default"} onClick={openDialog}>
+            Add Question
+          </Button>
+        </div> */}
+      </div>
+
+      <div className="flex items-center justify-between py-2">
+        <div className="relative w-2/5">
+          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+
+          <Input
+            placeholder="Search Question..."
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            className="pl-10"
+          />
+        </div>
+
+        <div className="flex items-center gap-2">
+          <Select>
+            <SelectTrigger className="w-[250px] border-2 border-primary">
+              <SelectValue placeholder="Filter By Course" />
+            </SelectTrigger>
+            <SelectContent>
+              {CourseLevel?.map((course) => (
+                <SelectItem key={course.value} value={String(course.value)}>
+                  {course.label}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+
+          <Button variant="default" size="default" onClick={openDialog}>
             Add Question
           </Button>
         </div>

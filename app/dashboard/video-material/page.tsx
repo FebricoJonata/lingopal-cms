@@ -22,6 +22,8 @@ import {
 } from "@/components/ui/dialog";
 import { Toaster } from "@/components/ui/sonner";
 import { Textarea } from "@/components/ui/textarea";
+import { Search } from "lucide-react";
+import { useState } from "react";
 const VideoMaterial = () => {
   const {
     isOpen,
@@ -43,6 +45,8 @@ const VideoMaterial = () => {
   const { data, isLoading } = useMaterialResourcesQuery("Video");
   const { mutate: editVideoMaterial } = useEditMaterialMutation();
   const { mutate: createVideoMaterial } = useCreateMaterialMutation();
+  const [search, setSearch] = useState("");
+
   const openDialog = () => {
     setModalFormData(initialmodalFormData); // Reset form data
     onOpen();
@@ -91,12 +95,22 @@ const VideoMaterial = () => {
     <>
       {" "}
       <Toaster richColors position="top-right" />
-      <div className="flex justify-between mb-4 items-center">
-        <h3 className="text-primary font-bold text-2xl">
-          Video Material Resource
-        </h3>
-        <Button variant={"default"} size={"icon"} onClick={openDialog}>
-          +
+      <h3 className="text-primary font-bold text-2xl mb-6">
+        Article Material Resource
+      </h3>
+      <div className="flex justify-between mb-2 items-center">
+        <div className="relative w-2/5">
+          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+
+          <Input
+            placeholder="Search Title..."
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            className="pl-10"
+          />
+        </div>
+        <Button variant={"default"} size={"default"} onClick={openDialog}>
+          Add Material
         </Button>
       </div>
       {isLoading ? (
