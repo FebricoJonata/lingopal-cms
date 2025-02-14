@@ -96,7 +96,7 @@ const VideoMaterial = () => {
       {" "}
       <Toaster richColors position="top-right" />
       <h3 className="text-primary font-bold text-2xl mb-6">
-        Article Material Resource
+        Video Material Resource
       </h3>
       <div className="flex justify-between mb-2 items-center">
         <div className="relative w-2/5">
