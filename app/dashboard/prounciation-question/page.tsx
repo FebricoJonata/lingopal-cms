@@ -191,7 +191,7 @@ const ProunciationQuestion = () => {
                 Course <span className="text-red-500">*</span>
               </label>
               <CourseDropdown
-                value={String(modalFormData.practiceLevel) || "-"}
+                value={String(modalFormData.practiceLevel) || ""}
                 onChange={handleChange}
               />
             </div>
